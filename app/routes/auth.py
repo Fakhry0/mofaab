@@ -1,47 +1,28 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, redirect, url_for, flash
+from flask_login import login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
-from app.models import User  # Corrected import statement
+from app.forms import RegistrationForm, LoginForm
+from app.models import User
 from app import db
 
 auth_bp = Blueprint('auth', __name__)
 
-@auth_bp.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
-
-        user = User.query.filter_by(username=username).first()
-
-        if not user or not check_password_hash(user.password, password):
-            flash('Invalid username or password.')
-            return redirect(url_for('auth.login'))
-
-        flash('Logged in successfully!')
-        return redirect(url_for('main.profile'))
-
-    return render_template('login.html')
-
-
 @auth_bp.route('/signup', methods=['GET', 'POST'])
 def signup():
-    if request.method == 'POST':
-        username = request.form.get('username')
-        email = request.form.get('email')
-        password = request.form.get('password')
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        username = form.username.data
+        email = form.email.data
+        password = form.password.data
 
-        if not username or not email or not password:
-            flash('Please fill out all fields.')
-            return redirect(url_for('auth.signup'))
-
-        # Check if the username or email already exists
         existing_user = User.query.filter_by(username=username).first()
         existing_email = User.query.filter_by(email=email).first()
+
         if existing_user:
-            flash('Username already taken.')
+            flash('Username already taken.', 'danger')
             return redirect(url_for('auth.signup'))
         if existing_email:
-            flash('Email already registered.')
+            flash('Email already registered.', 'danger')
             return redirect(url_for('auth.signup'))
 
         hashed_password = generate_password_hash(password, method='pbkdf2:sha256', salt_length=8)
@@ -49,9 +30,31 @@ def signup():
         db.session.add(new_user)
         db.session.commit()
 
-        flash('Account created successfully!')
+        flash('Account created successfully!', 'success')
         return redirect(url_for('auth.login'))
 
-    return render_template('signup.html')
+    return render_template('signup.html', form=form)
 
+@auth_bp.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        email = form.email.data
+        password = form.password.data
+        user = User.query.filter_by(email=email).first()
+        if user and check_password_hash(user.password, password):
+            login_user(user)
+            flash('Logged in successfully.', 'success')
+            return redirect(url_for('home.home'))  # Assuming you want to redirect to home
+        else:
+            flash('Login failed. Check your email and password.', 'danger')
+
+    return render_template('login.html', form=form)
+
+@auth_bp.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('You have been logged out.', 'success')
+    return redirect(url_for('auth.login'))
 

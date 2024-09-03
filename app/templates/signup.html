@@ -1,23 +1,43 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Sign Up</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
 </head>
 <body>
-    <h1>Sign Up</h1>
-    <form method="POST">
-        <label for="username">Username</label>
-        <input type="text" name="username" required>
-        
-        <label for="email">Email</label>
-        <input type="email" name="email" required>
-        
-        <label for="password">Password</label>
-        <input type="password" name="password" required>
-        
-        <button type="submit">Sign Up</button>
+    <h1>Signup</h1>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('auth.signup') }}">
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.username.label }}<br>
+            {{ form.username(size=32) }}
+        </div>
+        <div>
+            {{ form.email.label }}<br>
+            {{ form.email(size=64) }}
+        </div>
+        <div>
+            {{ form.password.label }}<br>
+            {{ form.password(size=32) }}
+        </div>
+        <div>
+            {{ form.confirm_password.label }}<br>
+            {{ form.confirm_password(size=32) }}
+        </div>
+        <div>
+            {{ form.submit() }}
+        </div>
     </form>
-    
-    <a href="{{ url_for('auth.login') }}">Already have an account? Login here.</a>
 </body>
 </html>
