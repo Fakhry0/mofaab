@@ -26,14 +26,10 @@ def create_app():
     from .routes.auth import auth_bp
     from .routes.home import home_bp
     from .routes.main import main_bp
-    from .routes.projects import projects_bp
-    from .routes.blogs import blogs_bp 
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(home_bp)
     app.register_blueprint(main_bp)
-    app.register_blueprint(projects_bp, url_prefix='/projects')
-    app.register_blueprint(blogs_bp)
 
     # Import the User model and set up the user loader after initializing extensions
     from .models import User
