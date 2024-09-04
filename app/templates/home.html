@@ -14,11 +14,15 @@
     
     {% if current_user.is_authenticated %}
         <p>Hello, {{ current_user.username }}!</p>
+        <li><a href="{{ url_for('main.projects') }}">My Projects</a></li>
         <a href="{{ url_for('auth.logout') }}">Logout</a>
     {% else %}
         <a href="{{ url_for('auth.login') }}">Login</a>
         <a href="{{ url_for('auth.signup') }}">Sign Up</a>
     {% endif %}
+    
+    <!-- New link to the Blogs page -->
+    <li><a href="{{ url_for('blogs.blogs') }}">View Blogs</a></li>
     
     {% with messages = get_flashed_messages(with_categories=True) %}
       {% if messages %}
