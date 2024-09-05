@@ -1,0 +1,16 @@
+<!-- app/templates/blogs.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Blog</h2>
+<a href="{{ url_for('blog.add_post') }}" class="btn btn-primary">Add New Post</a>
+<ul>
+    {% for post in posts %}
+        <li>
+            <a href="{{ url_for('blog.post_detail', id=post.id) }}">{{ post.title }}</a>
+            <small>({{ post.date_created.strftime('%Y-%m-%d') }})</small>
+            <p>{{ post.content[:100] }}...</p> <!-- Preview first 100 characters -->
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

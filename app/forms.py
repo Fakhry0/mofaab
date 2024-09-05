@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, TextAreaField, SubmitField
 from wtforms.validators import DataRequired, Length, Email, EqualTo
 
 class RegistrationForm(FlaskForm):
@@ -13,3 +13,15 @@ class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Login')
+
+class ProjectForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    description = TextAreaField('Description', validators=[DataRequired()])
+    technologies = StringField('Technologies', validators=[DataRequired()])  # Add the technologies field
+    link = StringField('Project Link', validators=[DataRequired()])  # Add the link field
+    submit = SubmitField('Add Project')
+
+class BlogPostForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    content = TextAreaField('Content', validators=[DataRequired()])
+    submit = SubmitField('Post')
