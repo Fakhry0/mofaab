@@ -1,14 +1,19 @@
 <!-- app/templates/blog_detail.html -->
+
 {% extends "base.html" %}
 
 {% block content %}
     <h2>{{ post.title }}</h2>
-    <p><small>Posted on {{ post.date_created.strftime('%Y-%m-%d') }}</small></p>
+    <small>Posted on {{ post.date_created.strftime('%Y-%m-%d') }}</small>
     <p>{{ post.content }}</p>
-    
-    <!-- Comment section (if you plan to add comments later) -->
+
+    {% if current_user.is_authenticated and current_user.is_admin %}
+        <a href="{{ url_for('blog.edit_post', id=post.id) }}" class="btn btn-warning">Edit</a>
+        <form action="{{ url_for('blog.delete_post', id=post.id) }}" method="POST" style="display:inline;">
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+    {% endif %}
+
     <hr>
-    <h3>Comments:</h3>
-    <!-- Placeholder for comments, if implemented in the future -->
-    <p>No comments yet.</p>
+    <!-- Add comments or other interactions here -->
 {% endblock %}
