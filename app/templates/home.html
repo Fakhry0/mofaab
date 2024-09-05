@@ -1,35 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MoFaAb Portfolio - Home</title>
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-</head>
-<body>
-    <h1>Welcome to My Portfolio</h1>
-    <p>This is the landing page where you can find an overview of my projects.</p>
-    
-    {% if current_user.is_authenticated %}
-        <p>Hello, {{ current_user.username }}!</p>
-        <a href="{{ url_for('auth.logout') }}">Logout</a>
-    {% else %}
-        <a href="{{ url_for('auth.login') }}">Login</a>
-        <a href="{{ url_for('auth.signup') }}">Sign Up</a>
-    {% endif %}
-    
-    {% with messages = get_flashed_messages(with_categories=True) %}
-      {% if messages %}
-        <div class="flash-messages">
-          {% for category, message in messages %}
-            <div class="alert alert-{{ category }}">
-              {{ message }}
-            </div>
-          {% endfor %}
-        </div>
-      {% endif %}
-    {% endwith %}
-</body>
-</html>
+<!-- mofaab/app/templates/home.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Welcome to MoFaAb</h2>
+    <p>Your portfolio, showcasing your skills and projects.</p>
+    <a href="{{ url_for('projects.projects') }}" class="btn btn-primary">View My Projects</a>
+{% endblock %}

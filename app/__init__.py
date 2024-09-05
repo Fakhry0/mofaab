@@ -2,6 +2,7 @@ from flask import Flask
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from .config import Config
 
 db = SQLAlchemy()
 login_manager = LoginManager()
@@ -9,7 +10,7 @@ migrate = Migrate()
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_object('config.Config')
+    app.config.from_object('app.config.Config')
     app.config['SECRET_KEY'] = 'your_secret_key'
 
     # Initialize extensions
@@ -26,10 +27,12 @@ def create_app():
     from .routes.auth import auth_bp
     from .routes.home import home_bp
     from .routes.main import main_bp
+    from .routes.projects import projects_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(home_bp)
     app.register_blueprint(main_bp)
+    app.register_blueprint(projects_bp)
 
     # Import the User model and set up the user loader after initializing extensions
     from .models import User

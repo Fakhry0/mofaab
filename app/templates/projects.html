@@ -1,0 +1,16 @@
+<!-- mofaab/app/templates/projects.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Projects</h2>
+    <a href="{{ url_for('projects.add_project') }}" class="btn btn-primary">Add Project</a>
+    <ul>
+        {% for project in projects %}
+            <li>
+                <a href="{{ url_for('projects.project_detail', id=project.id) }}">{{ project.title }}</a>
+                <small>({{ project.date_created.strftime('%Y-%m-%d') }})</small>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
