@@ -41,4 +41,10 @@ def create_app():
     def load_user(user_id):
         return User.query.get(int(user_id))
 
+    from flask import render_template
+
+    @app.errorhandler(403)
+    def forbidden_error(error):
+        return render_template('403.html'), 403
+
     return app
