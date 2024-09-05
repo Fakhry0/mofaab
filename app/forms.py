@@ -20,3 +20,8 @@ class ProjectForm(FlaskForm):
     technologies = StringField('Technologies', validators=[DataRequired()])  # Add the technologies field
     link = StringField('Project Link', validators=[DataRequired()])  # Add the link field
     submit = SubmitField('Add Project')
+
+class BlogPostForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    content = TextAreaField('Content', validators=[DataRequired()])
+    submit = SubmitField('Post')

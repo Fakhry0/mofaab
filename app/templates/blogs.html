@@ -1,25 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog Posts</title>
-</head>
-<body>
-    <h1>Blog Posts</h1>
+<!-- app/templates/blogs.html -->
+{% extends "base.html" %}
 
-    {% if blogs %}
-        <ul>
-        {% for blog in blogs %}
-            <li>
-                <h2>{{ blog.title }}</h2>
-                <p>{{ blog.content[:100] }}...</p> <!-- Show a snippet of the content -->
-                <a href="{{ url_for('blogs.blog_detail', blog_id=blog.id) }}">Read More</a>
-            </li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>No blog posts available.</p>
-    {% endif %}
-</body>
-</html>
+{% block content %}
+<h2>Blog</h2>
+<a href="{{ url_for('blog.add_post') }}" class="btn btn-primary">Add New Post</a>
+<ul>
+    {% for post in posts %}
+        <li>
+            <a href="{{ url_for('blog.post_detail', id=post.id) }}">{{ post.title }}</a>
+            <small>({{ post.date_created.strftime('%Y-%m-%d') }})</small>
+            <p>{{ post.content[:100] }}...</p> <!-- Preview first 100 characters -->
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}
