@@ -1,36 +1,49 @@
 # app/routes/blog.py
 
-from flask import Blueprint, render_template, redirect, url_for, flash
-from app.models import BlogPost
+from flask import Blueprint, render_template, request, flash, redirect, url_for, abort
+from flask_login import login_required, current_user
 from app import db
-from flask_login import current_user, login_required
-from app.forms import BlogPostForm
-from app.models import BlogPost
-from app.decorators import admin_required
+from app.models import BlogPost, Comment
+from app.forms import BlogPostForm, CommentForm
+from app.decorators import admin_required  # Import the admin_required decorator
+from datetime import datetime
 
 blog_bp = Blueprint('blog', __name__)
 
 @blog_bp.route('/blogs')
 def blogs():
-    posts = BlogPost.query.order_by(BlogPost.date_created.desc()).all()
+    posts = BlogPost.query.all()
     return render_template('blogs.html', posts=posts)
-
-@blog_bp.route('/post/<int:id>')
-def post_detail(id):
-    post = BlogPost.query.get_or_404(id)
-    return render_template('blog_detail.html', post=post)
 
 @blog_bp.route('/add-post', methods=['GET', 'POST'])
 @login_required
 def add_post():
     form = BlogPostForm()
     if form.validate_on_submit():
-        post = BlogPost(title=form.title.data, content=form.content.data)
-        db.session.add(post)
+        title = form.title.data
+        content = form.content.data
+        author_id = current_user.id
+        new_post = BlogPost(title=title, content=content, author_id=author_id, date_posted=datetime.utcnow())
+        db.session.add(new_post)
         db.session.commit()
-        flash('Blog post created successfully!', 'success')
+        flash('Your post has been created!', 'success')
         return redirect(url_for('blog.blogs'))
     return render_template('add_post.html', form=form)
+
+@blog_bp.route('/post/<int:post_id>', methods=['GET', 'POST'])
+def post(post_id):
+    post = BlogPost.query.get_or_404(post_id)
+    form = CommentForm()
+    if form.validate_on_submit():
+        content = form.content.data
+        author_id = current_user.id
+        new_comment = Comment(content=content, author_id=author_id, post_id=post.id, date_posted=datetime.utcnow())
+        db.session.add(new_comment)
+        db.session.commit()
+        flash('Your comment has been added!', 'success')
+        return redirect(url_for('blog.post', post_id=post.id))
+    comments = Comment.query.filter_by(post_id=post.id).all()
+    return render_template('post.html', post=post, form=form, comments=comments)
 
 # Route to edit a blog post
 @blog_bp.route('/edit-post/<int:id>', methods=['GET', 'POST'])

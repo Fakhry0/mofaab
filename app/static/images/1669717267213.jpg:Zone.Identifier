@@ -1,0 +1,4 @@
+[ZoneTransfer]
+ZoneId=3
+ReferrerUrl=http://192.168.1.123:2999/pc/online.html?data=%7B%22sip%22%3A%22192.168.1.123%3A2999%2Fpc%22%2C%22pwd%22%3A%22%22%2C%22ssid%22%3A%22Fakhry%22%2C%22type%22%3A%22connect%22%2C%22os_type%22%3A%22Android%22%7D
+HostUrl=http://192.168.1.123:2999/

@@ -1,16 +1,28 @@
 <!-- app/templates/blogs.html -->
 {% extends "base.html" %}
 
+{% block title %}Blogs{% endblock %}
+
 {% block content %}
-<h2>Blog</h2>
-<a href="{{ url_for('blog.add_post') }}" class="btn btn-primary">Add New Post</a>
-<ul>
+<div class="container mt-5">
+    <h2>All Blog Posts</h2>
+    {% if current_user.is_authenticated %}
+    <a href="{{ url_for('blog.add_post') }}" class="btn btn-primary mb-3">Add Post</a>
+    {% endif %}
     {% for post in posts %}
-        <li>
-            <a href="{{ url_for('blog.post_detail', id=post.id) }}">{{ post.title }}</a>
-            <small>({{ post.date_created.strftime('%Y-%m-%d') }})</small>
-            <p>{{ post.content[:100] }}...</p> <!-- Preview first 100 characters -->
-        </li>
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">{{ post.title }}</h5>
+            <p class="card-text">{{ post.content }}</p>
+            <p class="card-text">
+                <small class="text-muted">Posted by {{ post.author.username }} on {{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+            </p>
+            {% if post.author.profile_picture %}
+            <img src="{{ url_for('static', filename='profile_pics/' ~ post.author.profile_picture) }}" alt="Profile Picture" class="img-thumbnail" style="max-width: 50px;">
+            {% endif %}
+            <a href="{{ url_for('blog.post', post_id=post.id) }}" class="btn btn-secondary mt-2">View Post</a>
+        </div>
+    </div>
     {% endfor %}
-</ul>
+</div>
 {% endblock %}
