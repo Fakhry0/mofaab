@@ -4,40 +4,58 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2>{{ post.title }}</h2>
-    <p>{{ post.content }}</p>
-    <p class="text-muted">Posted by {{ post.author.username }} on {{ post.date_posted.strftime('%Y-%m-%d') }}</p>
-    {% if post.author.profile_picture %}
-    <img src="{{ url_for('static', filename='profile_pics/' ~ post.author.profile_picture) }}" alt="Profile Picture" class="img-thumbnail" style="max-width: 50px;">
-    {% endif %}
-    <hr>
-    <h3>Comments</h3>
-    {% for comment in comments %}
-    <div class="card mb-3">
+    <div class="card post-card shadow-sm">
         <div class="card-body">
-            <p class="card-text">{{ comment.content }}</p>
-            <p class="card-text">
-                <small class="text-muted">Commented by {{ comment.author.username }} on {{ comment.date_posted.strftime('%Y-%m-%d') }}</small>
-            </p>
+            <div class="d-flex align-items-center mb-3">
+                {% if post.author.profile_picture %}
+                <img src="{{ url_for('static', filename='profile_pics/' ~ post.author.profile_picture) }}" alt="Profile Picture" class="img-thumbnail rounded-circle mr-3 profile-pic">
+                {% endif %}
+                <div>
+                    <h2 class="card-title mb-0">{{ post.title }}</h2>
+                    <small class="text-muted">Posted by {{ post.author.username }} on {{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+                </div>
+            </div>
+            <p class="card-text">{{ post.content }}</p>
+            <hr>
+            <h3>Comments</h3>
+            {% for comment in comments.items %}
+            <div class="card mb-3 comment-card">
+                <div class="card-body">
+                    <p class="card-text">{{ comment.content }}</p>
+                    <p class="card-text">
+                        <small class="text-muted">Commented by {{ comment.author.username }} on {{ comment.date_posted.strftime('%Y-%m-%d') }}</small>
+                    </p>
+                </div>
+            </div>
+            {% endfor %}
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    {% if comments.has_prev %}
+                        <li class="page-item"><a class="page-link" href="{{ url_for('blog.post', post_id=post.id, page=comments.prev_num) }}">Previous</a></li>
+                    {% endif %}
+                    {% if comments.has_next %}
+                        <li class="page-item"><a class="page-link" href="{{ url_for('blog.post', post_id=post.id, page=comments.next_num) }}">Next</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% if current_user.is_authenticated %}
+            <form method="POST" action="{{ url_for('blog.post', post_id=post.id) }}" class="mt-4">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    {{ form.content.label(class="form-label") }}
+                    {{ form.content(class="form-control") }}
+                    {% for error in form.content.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form.submit(class="btn btn-primary") }}
+                </div>
+            </form>
+            {% else %}
+            <p>You must be logged in to add a comment.</p>
+            {% endif %}
         </div>
     </div>
-    {% endfor %}
-    {% if current_user.is_authenticated %}
-    <form method="POST" action="{{ url_for('blog.post', post_id=post.id) }}">
-        {{ form.hidden_tag() }}
-        <div class="form-group">
-            {{ form.content.label(class="form-label") }}
-            {{ form.content(class="form-control") }}
-            {% for error in form.content.errors %}
-                <span class="text-danger">{{ error }}</span>
-            {% endfor %}
-        </div>
-        <div class="form-group">
-            {{ form.submit(class="btn btn-primary") }}
-        </div>
-    </form>
-    {% else %}
-    <p>You must be logged in to add a comment.</p>
-    {% endif %}
 </div>
 {% endblock %}

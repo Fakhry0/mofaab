@@ -2,6 +2,9 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, FileField
 from wtforms.validators import DataRequired, Length, Email, EqualTo
 from flask_wtf.file import FileAllowed
+from flask_wtf.csrf import CSRFProtect
+
+csrf = CSRFProtect()
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])

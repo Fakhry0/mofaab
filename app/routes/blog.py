@@ -7,12 +7,14 @@ from app.models import BlogPost, Comment
 from app.forms import BlogPostForm, CommentForm
 from app.decorators import admin_required  # Import the admin_required decorator
 from datetime import datetime
+from sqlalchemy.orm import joinedload
 
 blog_bp = Blueprint('blog', __name__)
 
 @blog_bp.route('/blogs')
 def blogs():
-    posts = BlogPost.query.all()
+    page = request.args.get('page', 1, type=int)
+    posts = BlogPost.query.paginate(page=page, per_page=5)
     return render_template('blogs.html', posts=posts)
 
 @blog_bp.route('/add-post', methods=['GET', 'POST'])
@@ -42,7 +44,8 @@ def post(post_id):
         db.session.commit()
         flash('Your comment has been added!', 'success')
         return redirect(url_for('blog.post', post_id=post.id))
-    comments = Comment.query.filter_by(post_id=post.id).all()
+    page = request.args.get('page', 1, type=int)
+    comments = Comment.query.filter_by(post_id=post.id).paginate(page=page, per_page=5)
     return render_template('post.html', post=post, form=form, comments=comments)
 
 # Route to edit a blog post
@@ -69,3 +72,11 @@ def delete_post(id):
     db.session.commit()
     flash('Blog post deleted successfully!', 'success')
     return redirect(url_for('blog.blogs'))
+
+@blog_bp.route('/search', methods=['GET', 'POST'])
+def search():
+    if request.method == 'POST':
+        query = request.form['query']
+        results = BlogPost.query.filter(BlogPost.title.contains(query) | BlogPost.content.contains(query)).all()
+        return render_template('search_results.html', results=results)
+    return render_template('search.html')

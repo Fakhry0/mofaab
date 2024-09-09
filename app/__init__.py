@@ -12,7 +12,7 @@ migrate = Migrate()
 mail = Mail()
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder='static', template_folder='templates')
     app.config.from_object('app.config.Config')
     app.config['SECRET_KEY'] = 'your_secret_key'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
@@ -36,10 +36,10 @@ def create_app():
     from .routes.home import home_bp
     from .routes.main import main_bp
     from .routes.projects import projects_bp
-    from app.routes.blog import blog_bp
+    from .routes.blog import blog_bp
     from .routes.profile import profile_bp
     from .routes.contact import contact_bp
-    from .routes.admin import admin_bp  # Add this line
+    from .routes.admin import admin_bp
     
     app.register_blueprint(blog_bp)
     app.register_blueprint(auth_bp)
@@ -48,7 +48,7 @@ def create_app():
     app.register_blueprint(projects_bp)
     app.register_blueprint(profile_bp)
     app.register_blueprint(contact_bp)
-    app.register_blueprint(admin_bp)  # Add this line
+    app.register_blueprint(admin_bp)
 
     # Import the User model and set up the user loader after initializing extensions
     from .models import User
@@ -56,11 +56,5 @@ def create_app():
     @login_manager.user_loader
     def load_user(user_id):
         return User.query.get(int(user_id))
-
-    from flask import render_template
-
-    @app.errorhandler(403)
-    def forbidden_error(error):
-        return render_template('403.html'), 403
 
     return app
