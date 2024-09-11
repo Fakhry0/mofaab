@@ -21,9 +21,10 @@ class LoginForm(FlaskForm):
 
 class ProjectForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
-    description = TextAreaField('Description', validators=[DataRequired()])  # Use TextAreaField for description
-    technologies = StringField('Technologies', validators=[DataRequired()])  # Add the technologies field
-    link = StringField('Project Link', validators=[DataRequired()])  # Add the link field
+    description = TextAreaField('Description', validators=[DataRequired()])
+    technologies = StringField('Technologies', validators=[DataRequired()])
+    link = StringField('Project Link', validators=[DataRequired()])
+    photo = FileField('Project Photo', validators=[FileAllowed(['jpg', 'png'])])  # Add the photo field
     submit = SubmitField('Add Project')
 
 class BlogPostForm(FlaskForm):

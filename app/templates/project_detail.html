@@ -6,6 +6,12 @@
     <h2>{{ project.title }}</h2>
     <p>{{ project.description }}</p>
     <small>{{ project.date_created.strftime('%Y-%m-%d') }}</small>
+    
+    {% if project.photo %}
+        <div>
+            <img src="{{ url_for('static', filename='uploads/' ~ project.photo) }}" alt="{{ project.title }}" class="img-thumbnail" style="max-width: 200px;">
+        </div>
+    {% endif %}
 
     <!-- Only admins can edit the project -->
     {% if current_user.is_authenticated and current_user.is_admin %}

@@ -1,18 +1,26 @@
-<form method="POST">
+<form method="POST" class="project-form" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
     <div class="form-group">
-        {{ form.title.label }} {{ form.title(class_='form-control') }}
+        {{ form.title.label }} 
+        {{ form.title(class_='form-control') }}
     </div>
     <div class="form-group">
-        {{ form.description.label }} {{ form.description(class_='form-control') }}
+        {{ form.description.label }} 
+        {{ form.description(class_='form-control') }}
     </div>
     <div class="form-group">
-        {{ form.technologies.label }} {{ form.technologies(class_='form-control') }}
+        {{ form.technologies.label }} 
+        {{ form.technologies(class_='form-control') }}
     </div>
     <div class="form-group">
-        {{ form.link.label }} {{ form.link(class_='form-control') }}
+        {{ form.link.label }} 
+        {{ form.link(class_='form-control') }}
     </div>
     <div class="form-group">
-        {{ form.submit(class_='btn btn-primary') }}
+        {{ form.photo.label }} 
+        {{ form.photo(class_='form-control-file custom-file-input') }}  <!-- Custom styling for photo input -->
+    </div>
+    <div class="form-group text-center">
+        {{ form.submit(class_='btn btn-primary btn-lg rounded-pill') }}
     </div>
 </form>

@@ -26,9 +26,10 @@ class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text, nullable=False)
-    technologies = db.Column(db.String(200), nullable=False)  # Add this field
-    link = db.Column(db.String(200), nullable=False)  # Add this field if needed
-    date_created = db.Column(db.DateTime, default=datetime.utcnow)
+    technologies = db.Column(db.String(200), nullable=False)
+    link = db.Column(db.String(200), nullable=False)
+    photo = db.Column(db.String(20), nullable=True)  # Add this line
+    date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     def __repr__(self):
         return f"Project('{self.title}', '{self.date_created}')"

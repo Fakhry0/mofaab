@@ -17,7 +17,7 @@ def create_app():
     app.config['SECRET_KEY'] = 'your_secret_key'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['UPLOAD_FOLDER'] = os.path.join(app.root_path, 'static/profile_pics')
+    app.config['UPLOAD_FOLDER'] = os.path.join(app.root_path, 'static/uploads')  # Ensure this line is present
     app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16 MB max file size
 
     # Initialize extensions

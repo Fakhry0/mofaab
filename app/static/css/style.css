@@ -454,3 +454,132 @@ body.dark-mode .container, body.dark-mode .post-card, body.dark-mode footer {
     border-radius: 50%;
     cursor: pointer;
 }
+
+/* Improved Project Form Styles */
+.project-form {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 40px;
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.project-form h2 {
+    color: #ecf0f1;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.project-form .form-group {
+    margin-bottom: 30px;
+}
+
+.project-form .form-group label {
+    font-size: 1.2rem;
+    color: #ecf0f1;
+    margin-bottom: 10px;
+    display: block;
+    font-weight: 500;
+}
+
+.project-form .form-group input,
+.project-form .form-group textarea {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 2px solid #3498db;
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.project-form .form-group input:focus,
+.project-form .form-group textarea:focus {
+    border-color: #2ecc71;
+    box-shadow: 0 0 15px rgba(46, 204, 113, 0.7);
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.project-form .btn {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 20px;
+}
+
+.project-form .btn:hover {
+    background-color: #2980b9;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(52, 152, 219, 0.6);
+}
+
+.project-form .btn:active {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(52, 152, 219, 0.4);
+}
+
+/* File input styling */
+.project-form .form-group input[type="file"] {
+    border: 2px dashed #3498db;
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.project-form .form-group input[type="file"]::-webkit-file-upload-button {
+    visibility: hidden;
+}
+
+.project-form .form-group input[type="file"]::before {
+    content: 'Select Project Image';
+    display: inline-block;
+    background: #3498db;
+    color: #fff;
+    padding: 8px 20px;
+    border-radius: 5px;
+    outline: none;
+    white-space: nowrap;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.project-form .form-group input[type="file"]:hover::before {
+    background-color: #2980b9;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .project-form {
+        padding: 30px;
+    }
+
+    .project-form h2 {
+        font-size: 2rem;
+    }
+
+    .project-form .form-group input,
+    .project-form .form-group textarea {
+        font-size: 1rem;
+    }
+
+    .project-form .btn {
+        font-size: 1.1rem;
+    }
+}
