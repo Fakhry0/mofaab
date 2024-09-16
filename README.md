@@ -5,7 +5,7 @@ MoFaAb is a portfolio project designed to showcase my skills and projects. It in
 
 ## Links
 - **Landing page:** [MoFaAb](https://fakhry0.github.io/my-landing-page/)
-- **Final Project Blog Article:** [Read the Blog](https://www.linkedin.com/posts/muhammad-fakhry_blogpost-building-mofaab-my-portfolio-activity-7241248778475716609-53L9?utm_source=share&utm_medium=member_desktop)
+- **Final Project Blog Article:** [Read the Blog](https://www.linkedin.com/pulse/building-mofaab-my-portfolio-project-muhammad-fakhry-filtf/?trackingId=qkiS68KKQuCBzT0Q4enhAg%3D%3D)
 - **Author's LinkedIn:** [Muhammad Fakhry](https://www.linkedin.com/in/muhammad-fakhry/)
 
 ## Installation
