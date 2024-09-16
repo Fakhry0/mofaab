@@ -9,18 +9,18 @@ main_bp = Blueprint('main', __name__)
 @main_bp.route('/')
 @login_required
 def index():
-    return render_template('home.html')
+    return render_template('home.html')  # Render home page
 
 @main_bp.route('/projects', methods=['GET', 'POST'])
 @login_required
 def projects():
-    form = ProjectForm()
+    form = ProjectForm()  # Instantiate project form
     if form.validate_on_submit():
-        project = Project(title=form.title.data, description=form.description.data, owner=current_user)
-        db.session.add(project)
-        db.session.commit()
-        flash('Project added successfully!', 'success')
-        return redirect(url_for('main.projects'))
+        project = Project(title=form.title.data, description=form.description.data, owner=current_user)  # Create new project
+        db.session.add(project)  # Add project to session
+        db.session.commit()  # Commit session
+        flash('Project added successfully!', 'success')  # Flash success message
+        return redirect(url_for('main.projects'))  # Redirect to projects page
     
-    user_projects = Project.query.all()
-    return render_template('projects.html', form=form, projects=user_projects)
+    user_projects = Project.query.all()  # Fetch all projects
+    return render_template('projects.html', form=form, projects=user_projects)  # Render projects template

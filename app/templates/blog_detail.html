@@ -10,7 +10,9 @@
 
     {% if current_user.is_authenticated and current_user.is_admin %}
         <div class="d-flex mb-4">
+            <!-- Button to edit the post, visible only to admins -->
             <a href="{{ url_for('blog.edit_post', id=post.id) }}" class="btn btn-warning mr-2">Edit</a>
+            <!-- Form to delete the post, visible only to admins -->
             <form action="{{ url_for('blog.delete_post', id=post.id) }}" method="POST" style="display:inline;">
                 <button type="submit" class="btn btn-danger">Delete</button>
             </form>
@@ -29,6 +31,7 @@
     </div>
 
     {% if current_user.is_authenticated %}
+        <!-- Form to add a new comment, visible only to authenticated users -->
         <form method="POST" action="" class="mt-4">
             {{ form.hidden_tag() }}
             <div class="form-group">

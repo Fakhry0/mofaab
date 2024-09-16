@@ -6,40 +6,46 @@ from flask_wtf.csrf import CSRFProtect
 
 csrf = CSRFProtect()
 
+# Registration form
 class RegistrationForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('Sign Up')
+    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])  # Username field
+    email = StringField('Email', validators=[DataRequired(), Email()])  # Email field
+    password = PasswordField('Password', validators=[DataRequired()])  # Password field
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])  # Confirm password field
+    submit = SubmitField('Sign Up')  # Submit button
 
+# Login form
 class LoginForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    remember = BooleanField('Remember Me')
-    submit = SubmitField('Login')
+    email = StringField('Email', validators=[DataRequired(), Email()])  # Email field
+    password = PasswordField('Password', validators=[DataRequired()])  # Password field
+    remember = BooleanField('Remember Me')  # Remember me checkbox
+    submit = SubmitField('Login')  # Submit button
 
+# Project form
 class ProjectForm(FlaskForm):
-    title = StringField('Title', validators=[DataRequired()])
-    description = TextAreaField('Description', validators=[DataRequired()])
-    technologies = StringField('Technologies', validators=[DataRequired()])
-    link = StringField('Project Link', validators=[DataRequired()])
-    photo = FileField('Project Photo', validators=[FileAllowed(['jpg', 'png'])])  # Add the photo field
-    submit = SubmitField('Add Project')
+    title = StringField('Title', validators=[DataRequired()])  # Project title
+    description = TextAreaField('Description', validators=[DataRequired()])  # Project description
+    technologies = StringField('Technologies', validators=[DataRequired()])  # Technologies used
+    link = StringField('Project Link', validators=[DataRequired()])  # Project link
+    photo = FileField('Project Photo', validators=[FileAllowed(['jpg', 'png'])])  # Project photo
+    submit = SubmitField('Add Project')  # Submit button
 
+# Blog post form
 class BlogPostForm(FlaskForm):
-    title = StringField('Title', validators=[DataRequired()])
-    content = TextAreaField('Content', validators=[DataRequired()])
-    submit = SubmitField('Post')
+    title = StringField('Title', validators=[DataRequired()])  # Post title
+    content = TextAreaField('Content', validators=[DataRequired()])  # Post content
+    submit = SubmitField('Post')  # Submit button
 
+# Comment form
 class CommentForm(FlaskForm):
-    content = TextAreaField('Comment', validators=[DataRequired()])
-    submit = SubmitField('Add Comment')
+    content = TextAreaField('Comment', validators=[DataRequired()])  # Comment content
+    submit = SubmitField('Add Comment')  # Submit button
 
+# Update profile form
 class UpdateProfileForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    about_me = TextAreaField('About Me', validators=[Length(max=500)])
-    phone_number = StringField('Phone Number', validators=[Length(max=20)])  # Add phone number field
-    profile_picture = FileField('Profile Picture', validators=[FileAllowed(['jpg', 'png'])])  # Add profile picture field
-    submit = SubmitField('Update Profile')
+    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])  # Username field
+    email = StringField('Email', validators=[DataRequired(), Email()])  # Email field
+    about_me = TextAreaField('About Me', validators=[Length(max=500)])  # About me field
+    phone_number = StringField('Phone Number', validators=[Length(max=20)])  # Phone number field
+    profile_picture = FileField('Profile Picture', validators=[FileAllowed(['jpg', 'png'])])  # Profile picture field
+    submit = SubmitField('Update Profile')  # Submit button

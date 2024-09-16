@@ -8,6 +8,7 @@ from app.forms import BlogPostForm, CommentForm
 from app.decorators import admin_required  # Import the admin_required decorator
 from datetime import datetime
 from sqlalchemy.orm import joinedload
+from jinja2 import TemplateNotFound
 
 blog_bp = Blueprint('blog', __name__)
 
@@ -34,33 +35,33 @@ def add_post():
 
 @blog_bp.route('/post/<int:post_id>', methods=['GET', 'POST'])
 def post(post_id):
-    post = BlogPost.query.get_or_404(post_id)
-    form = CommentForm()
+    post = BlogPost.query.get_or_404(post_id)  # Fetch post by ID
+    form = CommentForm()  # Instantiate comment form
     if form.validate_on_submit():
         content = form.content.data
         author_id = current_user.id
-        new_comment = Comment(content=content, author_id=author_id, post_id=post.id, date_posted=datetime.utcnow())
-        db.session.add(new_comment)
-        db.session.commit()
-        flash('Your comment has been added!', 'success')
-        return redirect(url_for('blog.post', post_id=post.id))
-    page = request.args.get('page', 1, type=int)
-    comments = Comment.query.filter_by(post_id=post.id).paginate(page=page, per_page=5)
-    return render_template('post.html', post=post, form=form, comments=comments)
+        new_comment = Comment(content=content, author_id=author_id, post_id=post.id, date_posted=datetime.utcnow())  # Create new comment
+        db.session.add(new_comment)  # Add new comment to the session
+        db.session.commit()  # Commit the session
+        flash('Your comment has been added!', 'success')  # Flash success message
+        return redirect(url_for('blog.post', post_id=post.id))  # Redirect to post page
+    page = request.args.get('page', 1, type=int)  # Get current page number
+    comments = Comment.query.filter_by(post_id=post.id).paginate(page=page, per_page=5)  # Paginate comments
+    return render_template('post.html', post=post, form=form, comments=comments)  # Render post template
 
 # Route to edit a blog post
 @blog_bp.route('/edit-post/<int:id>', methods=['GET', 'POST'])
 @login_required
 @admin_required
 def edit_post(id):
-    post = BlogPost.query.get_or_404(id)
+    post = BlogPost.query.get_or_404(id)  # Fetch post by ID
     if request.method == 'POST':
         post.title = request.form['title']
         post.content = request.form['content']
-        db.session.commit()
-        flash('Blog post updated successfully!', 'success')
-        return redirect(url_for('blog.post_detail', id=post.id))
-    return render_template('edit_post.html', post=post)
+        db.session.commit()  # Commit the session
+        flash('Blog post updated successfully!', 'success')  # Flash success message
+        return redirect(url_for('blog.post_detail', id=post.id))  # Redirect to post detail page
+    return render_template('edit_post.html', post=post)  # Render edit post template
 
 # Route to delete a blog post
 @blog_bp.route('/delete-post/<int:id>', methods=['POST'])
@@ -75,8 +76,7 @@ def delete_post(id):
 
 @blog_bp.route('/search', methods=['GET', 'POST'])
 def search():
-    if request.method == 'POST':
-        query = request.form['query']
-        results = BlogPost.query.filter(BlogPost.title.contains(query) | BlogPost.content.contains(query)).all()
-        return render_template('search_results.html', results=results)
-    return render_template('search.html')
+    try:
+        return render_template('search.html')
+    except TemplateNotFound:
+        return "Search page not found", 404

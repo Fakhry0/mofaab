@@ -7,7 +7,7 @@ contact_bp = Blueprint('contact', __name__)
 
 def send_async_email(app, msg):
     with app.app_context():
-        mail.send(msg)
+        mail.send(msg)  # Send email
 
 @contact_bp.route('/contact', methods=['GET', 'POST'])
 def contact():
@@ -21,11 +21,11 @@ def contact():
                       recipients=['alylolo223344@gmail.com'],
                       body=message)
         try:
-            Thread(target=send_async_email, args=(current_app._get_current_object(), msg)).start()
-            flash('Your message has been sent!', 'success')
+            Thread(target=send_async_email, args=(current_app._get_current_object(), msg)).start()  # Send email asynchronously
+            flash('Your message has been sent!', 'success')  # Flash success message
         except Exception as e:
-            flash(f'An error occurred while sending your message: {str(e)}', 'danger')
+            flash(f'An error occurred while sending your message: {str(e)}', 'danger')  # Flash error message
         
-        return redirect(url_for('contact.contact'))
+        return redirect(url_for('contact.contact'))  # Redirect to contact page
     
-    return render_template('contact.html')
+    return render_template('contact.html')  # Render contact template

@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Title block to be overridden by child templates -->
     <title>{% block title %}My Blog{% endblock %}</title>
+    <!-- Link to the main stylesheet -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
@@ -11,17 +13,21 @@
         <div class="brand-name">MoFaAb</div>
         <nav>
             <ul>
+                <!-- Navigation links -->
                 <li><a href="{{ url_for('home.home') }}">Home</a></li>
                 <li><a href="{{ url_for('blog.blogs') }}">Blogs</a></li>
                 <li><a href="{{ url_for('main.projects') }}">Projects</a></li>
                 <li><a href="{{ url_for('contact.contact') }}">Contact</a></li>
                 {% if current_user.is_authenticated %}
+                    <!-- Links for authenticated users -->
                     <li><a href="{{ url_for('profile.profile') }}">Profile</a></li>
                     {% if current_user.is_admin %}
+                        <!-- Admin link for admin users -->
                         <li><a href="{{ url_for('admin.admin_dashboard') }}">Admin</a></li>
                     {% endif %}
                     <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
                 {% else %}
+                    <!-- Links for unauthenticated users -->
                     <li><a href="{{ url_for('auth.login') }}">Login</a></li>
                     <li><a href="{{ url_for('auth.signup') }}">Sign Up</a></li>
                 {% endif %}
@@ -29,6 +35,7 @@
         </nav>
     </header>
     <div class="container">
+        <!-- Flash messages -->
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 <ul class="flashes">
@@ -38,11 +45,13 @@
                 </ul>
             {% endif %}
         {% endwith %}
+        <!-- Content block to be overridden by child templates -->
         {% block content %}{% endblock %}
     </div>
     <footer>
         &copy; 2024 Muhammad Fakhry
     </footer>
+    <!-- JavaScript files -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

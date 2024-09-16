@@ -9,8 +9,14 @@
     
     {% if project.photo %}
         <div>
+            <!-- Display project photo if available -->
             <img src="{{ url_for('static', filename='uploads/' ~ project.photo) }}" alt="{{ project.title }}" class="img-thumbnail" style="max-width: 200px;">
         </div>
+    {% endif %}
+    
+    <!-- Display project link if available -->
+    {% if project.link %}
+        <p><a href="{{ project.link }}" target="_blank" class="btn btn-info">View Project</a></p>
     {% endif %}
 
     <!-- Only admins can edit the project -->

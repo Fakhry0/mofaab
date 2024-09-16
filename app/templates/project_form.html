@@ -1,26 +1,32 @@
 <form method="POST" class="project-form" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
     <div class="form-group">
+        <!-- Title input field -->
         {{ form.title.label }} 
         {{ form.title(class_='form-control') }}
     </div>
     <div class="form-group">
+        <!-- Description input field -->
         {{ form.description.label }} 
         {{ form.description(class_='form-control') }}
     </div>
     <div class="form-group">
+        <!-- Technologies input field -->
         {{ form.technologies.label }} 
         {{ form.technologies(class_='form-control') }}
     </div>
     <div class="form-group">
+        <!-- Link input field -->
         {{ form.link.label }} 
         {{ form.link(class_='form-control') }}
     </div>
     <div class="form-group">
+        <!-- Photo input field with custom styling -->
         {{ form.photo.label }} 
-        {{ form.photo(class_='form-control-file custom-file-input') }}  <!-- Custom styling for photo input -->
+        {{ form.photo(class_='form-control-file custom-file-input') }}
     </div>
     <div class="form-group text-center">
+        <!-- Submit button -->
         {{ form.submit(class_='btn btn-primary btn-lg rounded-pill') }}
     </div>
 </form>

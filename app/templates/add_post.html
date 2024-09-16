@@ -6,13 +6,16 @@
 <form method="POST">
     {{ form.hidden_tag() }}
     <div class="form-group">
+        <!-- Title input field -->
         {{ form.title.label }}<br>
         {{ form.title(size=40) }}
     </div>
     <div class="form-group">
+        <!-- Content input field -->
         {{ form.content.label }}<br>
         {{ form.content(rows=10, cols=40) }}
     </div>
+    <!-- Submit button -->
     {{ form.submit(class="btn btn-primary") }}
 </form>
 {% endblock %}

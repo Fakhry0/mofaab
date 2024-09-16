@@ -5,11 +5,13 @@
 {% block content %}
     <h2>Projects</h2>
     {% if current_user.is_authenticated and current_user.is_admin %}
+        <!-- Button to add a new project, visible only to admins -->
         <a href="{{ url_for('projects.add_project') }}" class="btn btn-primary">Add Project</a>
     {% endif %}
     <ul>
         {% for project in projects %}
             <li>
+                <!-- Link to project detail page -->
                 <a href="{{ url_for('projects.project_detail', id=project.id) }}">{{ project.title }}</a>
                 <small>({{ project.date_created.strftime('%Y-%m-%d') }})</small>
             </li>

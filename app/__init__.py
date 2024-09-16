@@ -6,6 +6,7 @@ from .config import Config
 from flask_mail import Mail
 import os
 
+# Initialize extensions
 db = SQLAlchemy()
 login_manager = LoginManager()
 migrate = Migrate()
@@ -13,14 +14,14 @@ mail = Mail()
 
 def create_app():
     app = Flask(__name__, static_folder='static', template_folder='templates')
-    app.config.from_object('app.config.Config')
-    app.config['SECRET_KEY'] = 'your_secret_key'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['UPLOAD_FOLDER'] = os.path.join(app.root_path, 'static/uploads')  # Ensure this line is present
+    app.config.from_object('app.config.Config')  # Load configuration from Config class
+    app.config['SECRET_KEY'] = 'your_secret_key'  # Secret key for session management
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'  # Database URI
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Disable track modifications
+    app.config['UPLOAD_FOLDER'] = os.path.join(app.root_path, 'static/uploads')  # Upload folder path
     app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16 MB max file size
 
-    # Initialize extensions
+    # Initialize extensions with the app instance
     db.init_app(app)
     login_manager.init_app(app)
     migrate.init_app(app, db)
@@ -55,6 +56,6 @@ def create_app():
 
     @login_manager.user_loader
     def load_user(user_id):
-        return User.query.get(int(user_id))
+        return User.query.get(int(user_id))  # Load user by ID
 
     return app
